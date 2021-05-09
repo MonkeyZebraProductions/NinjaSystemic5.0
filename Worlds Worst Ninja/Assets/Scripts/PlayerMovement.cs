@@ -49,6 +49,8 @@ public class PlayerMovement : MonoBehaviour
     public SpriteRenderer sprite;
     private Color colour;
 
+    private CheckpointManager CM;
+
     private WeaponStat _WS;
 
     public LayerMask WhatIsWall;
@@ -78,6 +80,8 @@ public class PlayerMovement : MonoBehaviour
 
         _RV = FindObjectOfType<ReloadVisual>();
 
+        CM = FindObjectOfType<CheckpointManager>();
+
         _jumps = MaxJumps;
         _overheatStep = 1;
         _overHeat = 0;
@@ -89,6 +93,7 @@ public class PlayerMovement : MonoBehaviour
         _hangTime = HangTimer;
         _ExplosionMultiplierRate = 0.9f;
         _wallJumpTime = 0;
+        
     }
 
     // Update is called once per frame
@@ -149,7 +154,8 @@ public class PlayerMovement : MonoBehaviour
             //SelectedWeapon.transform.LookAt(LootTarget.transform, Vector2.up);
             
                 _rb2D.velocity = new Vector2(move.x * MovementSpeed, 0);
-            if(_rb2D.velocity.x!=0 && _isGrounded)
+            
+            if(_rb2D.velocity.x !=0 && _isGrounded)
             {
                 FindObjectOfType<AudioManager>().Play("Walk");
             }
@@ -377,6 +383,10 @@ public class PlayerMovement : MonoBehaviour
             ExplosionDirection.Normalize();
             ExplosionMultiplier = 1;
             _isExplosion = true;
+        }
+        if(collider2D.gameObject.layer==17)
+        {
+            CM.increment();
         }
     }
 

@@ -15,6 +15,7 @@ public class Timer : MonoBehaviour
     public TMP_Text TimerText,ResultText;
     public GameObject ResultScreen,ControlScreen,WeaponWheel;
     public float timeSpent, minutes, seconds;
+    public static float capturedTime;
     private bool _controlScreen;
 
     private PlayerMovement pm;
@@ -22,8 +23,6 @@ public class Timer : MonoBehaviour
     public UnityEvent Reload, Back;
 
     private Controls inputs;
-
-    private static float capturedTime;
 
     private void Awake()
     {
@@ -46,11 +45,7 @@ public class Timer : MonoBehaviour
         seconds = Mathf.FloorToInt(timeSpent % 60);
 
         TimerText.text = "Time: " + TimeSpan.FromSeconds(timeSpent).ToString("mm\\:ss\\.fff");
-    }
 
-    public void Capture()
-    {
-        capturedTime = timeSpent;
     }
 
     void Re()
@@ -59,6 +54,10 @@ public class Timer : MonoBehaviour
         SceneManager.LoadScene(0);
     }
 
+    public void Capture()
+    {
+        capturedTime = timeSpent;
+    }
     void ActivateSwitch()
     {
         Time.timeScale = 0.01f;
