@@ -49,6 +49,8 @@ public class EnemyAI : MonoBehaviour
     [HideInInspector] public bool goingRight = false;
     [HideInInspector] public bool canLookAround = true;
 
+    private Transform player;
+
     private void Start()
     {
         baseSpeed = speed;
@@ -68,6 +70,8 @@ public class EnemyAI : MonoBehaviour
         InvokeRepeating("UpdatePath", 0f, pathUpdateSeconds);
 
         timer = forgetPlayerTimer;
+
+        player = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
     private void Update()
@@ -119,6 +123,14 @@ public class EnemyAI : MonoBehaviour
             {
                 PathFollow();
             }
+        }
+
+        float distToPlayer = Vector3.Distance(transform.position, player.position);
+
+        if(distToPlayer < 1f && !playerSeen)
+        {
+            playerSeen = true;
+            targetPos = player;
         }
     }
 
