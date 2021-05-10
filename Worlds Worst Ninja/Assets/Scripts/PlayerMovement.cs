@@ -19,7 +19,7 @@ public class PlayerMovement : MonoBehaviour
 
     public float WallJumpTimer, _reloadTime=1;
 
-    public GameObject SelectedWeapon;
+    public GameObject SelectedWeapon,DeathText;
 
     public Transform LootTarget,LeftWallPoint,RightWallPoint;
 
@@ -57,6 +57,8 @@ public class PlayerMovement : MonoBehaviour
 
     public Slider HealthSlider;
 
+    private Animator animator;
+
     void Awake()
     {
         inputs = new Controls();
@@ -82,6 +84,8 @@ public class PlayerMovement : MonoBehaviour
 
         CM = FindObjectOfType<CheckpointManager>();
 
+        animator = GetComponentInChildren<Animator>();
+
         _jumps = MaxJumps;
         _overheatStep = 1;
         _overHeat = 0;
@@ -93,7 +97,7 @@ public class PlayerMovement : MonoBehaviour
         _hangTime = HangTimer;
         _ExplosionMultiplierRate = 0.9f;
         _wallJumpTime = 0;
-        
+        DeathText.SetActive(false);
     }
 
     // Update is called once per frame
@@ -104,11 +108,15 @@ public class PlayerMovement : MonoBehaviour
             _jumps = MaxJumps;
             _firstGrab = false;
         }
+
+        animator.SetBool("IsGrounded", _isGrounded);
+
         _WS = FindObjectOfType<WeaponStat>();
         _isAuto = _WS.IsAuto;
         
         if(Health<=0)
         {
+            DeathText.SetActive(true);
             Destroy(gameObject);
         }
         _isLeftWalled=Physics2D.OverlapCircle(LeftWallPoint.position, 0.2f, WhatIsWall);

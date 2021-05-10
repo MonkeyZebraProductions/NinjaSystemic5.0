@@ -62,7 +62,7 @@ public class EnemyShooting : MonoBehaviour
     IEnumerator Shoot()
     {
         canShoot = false;
-
+        FindObjectOfType<AudioManager>().Play("EnemyShoot");
         GameObject bullet = Instantiate(bulletPrefab, firePoint.position, Quaternion.identity);
 
         if(GetComponent<EnemyAI>().goingRight == false)

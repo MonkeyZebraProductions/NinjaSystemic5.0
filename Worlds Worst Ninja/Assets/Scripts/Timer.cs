@@ -24,6 +24,8 @@ public class Timer : MonoBehaviour
 
     private Controls inputs;
 
+    public CheckpointManager CM;
+
     private void Awake()
     {
         inputs = new Controls();
@@ -36,6 +38,7 @@ public class Timer : MonoBehaviour
     {
         Time.timeScale = 1;
         pm = FindObjectOfType<PlayerMovement>();
+        CM = FindObjectOfType<CheckpointManager>();
         timeSpent = capturedTime;
     }
     private void Update()
@@ -73,6 +76,8 @@ public class Timer : MonoBehaviour
     {
         if(collision.gameObject.layer==11)
         {
+            CM.Restart();
+            capturedTime = 0;
             Time.timeScale = 0;
             
                 ResultText.text = "Congrats! You beat the level in " + TimeSpan.FromSeconds(timeSpent).ToString("mm\\:ss\\.fff");

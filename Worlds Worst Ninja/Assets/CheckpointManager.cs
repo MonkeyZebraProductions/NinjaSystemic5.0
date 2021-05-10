@@ -29,4 +29,9 @@ public class CheckpointManager : MonoBehaviour
         index += 1;
         timer.Capture();
     }
+
+    public void Restart()
+    {
+        index = 0;
+    }
 }
